@@ -1,7 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-
 struct Node{
     int data;
     struct Node *next;
@@ -13,7 +12,7 @@ struct Node *pop(struct Node *head,int *data);
 
 int main(void){
 
-
+    
 
     struct Node *head = malloc(sizeof(struct Node));
     head->data = 1;
