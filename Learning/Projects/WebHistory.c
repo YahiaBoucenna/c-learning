@@ -1,59 +1,68 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+
 struct Node{
-    char Url[100];
+    char URL[200];
     struct Node *next;
     struct Node *prev;
 };
 
-struct Node *visit(struct Node *head,const char *WebUrl);
+struct Node *visit(struct Node *head,const char *WebURl);
 struct Node *back(struct Node *head);
-struct Node *forward(struct Node *Current_page);
+struct Node *forward(struct Node *head);
 
-int main(){
+int main(void){
+
     struct Node *head = malloc(sizeof(struct Node));
-    strcpy(head->Url,"New Page");
+    strcpy(head->URL,"New Tab");
     head->prev = NULL;
     head->next = NULL;
 
     head = visit(head,"www.youtube.com");
-    head = visit(head,"www.google.com");
-    struct Node *Current_page = head;
-    Current_page = back(Current_page);
-    Current_page = back(Current_page);
-
-    Current_page = forward(Current_page);
+    head = visit(head,"www.facebook.com");
+    head = visit(head,"www.tiktok.com");
+    head = visit(head,"www.x.com");
+    head = back(head);
+    head = back(head);
+    head = forward(head);
+    head = forward(head);
+    head = forward(head);
+    printf("%s\n",head->URL);
     
-    printf("%s\n",Current_page->Url);
 
-    return 0;
+
 }
-
-struct Node *visit(struct Node *head,const char *WebUrl){
-    struct Node *NewWindow = malloc(sizeof(struct Node));
-    strcpy(NewWindow->Url,WebUrl);
-    NewWindow->prev = NULL;
-    NewWindow->next = head;
-    head->prev = NewWindow;
-    return NewWindow;
-}
-
-struct Node *back(struct Node *head){
-    struct Node *current_page = head;
-    if(head->next != NULL){
-        current_page = current_page->next;
-        return current_page;
+struct Node *visit(struct Node *head,const char *WebURl){
+    if(head->prev == NULL){
+        struct Node *NewNode = malloc(sizeof(struct Node));
+        NewNode->next = head;
+        NewNode->prev = NULL;
+        strcpy(NewNode->URL, WebURl);
+        head->prev = NewNode;
+        return NewNode;
     }else{
-        return current_page;
+        printf("please move forward");
+        return head; 
     }
 }
 
-struct Node *forward(struct Node *Current_page){
-    if(Current_page->prev != NULL){
-        Current_page = Current_page->prev;
-        return Current_page;
+struct Node *back(struct Node *head){
+    if(head->next != NULL){
+        struct Node *tmp = head;
+        head = head->next;
+        head->prev = tmp;
+        return head;
     }else{
-        return Current_page;
+        return head;
+    }
+}
+
+struct Node *forward(struct Node *head){
+    if(head->prev != NULL){
+        head = head->prev;
+        return head;
+    }else{
+        return head;
     }
 }
